@@ -1,7 +1,7 @@
 import { Link, useNavigation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import BookmarkCard from "../components/BookmarkCard";
-import { remove } from "../features/recipe/recipeSlice";
+import { bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 
@@ -9,20 +9,23 @@ const Bookmark = () => {
   const navigation = useNavigation();
 
   const isPageLoading = navigation.state === "loading";
-  const products = useSelector((state) => state.recipeState.cartItems);
+  const products = useSelector((state) => state.recipeState.bookMarkedItems);
   console.log(products);
-  const finalproduct = products.filter((item) => {
-    console.log(item.isBookmarked); // This will log true, false, true, false
-    return item.isBookmarked === true;
-  });
-  console.log(finalproduct);
+  // const finalproduct = products.filter((item) => {
+  //   console.log(item.isBookmarked); // This will log true, false, true, false
+  //   return item.isBookmarked === true;
+  // });
+  // console.log(finalproduct);
   const dispatch = useDispatch();
   const handleBookmarkToggle = (bookmarkarg) => {
     const bookmarkdata = {
       ...bookmarkarg,
-      isBookmark: !bookmarkarg.isBookmarked,
+      isBookmarked: !bookmarkarg.isBookmarked,
     };
-    dispatch(remove({ bookmark: bookmarkdata }));
+    const newData = products.filter((data) => {
+      return data.idMeal !== bookmarkdata.idMeal;
+    });
+    dispatch(bookmark(newData));
     toast.success("Bookmark removed successfully");
     // setIsBookmark(!isBookmark);
   };
@@ -45,7 +48,7 @@ const Bookmark = () => {
           <div className="p-12 place-items-center shadow-lg grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {products.length > 0 ? (
               <BookmarkCard
-                products={finalproduct}
+                products={products}
                 handleBookmarkToggle={handleBookmarkToggle}
               />
             ) : (

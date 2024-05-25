@@ -4,13 +4,14 @@ const BookmarkCard = ({ products, handleBookmarkToggle }) => {
   return (
     <>
       {products.map((item) => {
-        const { idMeal, strMeal, strCategory, strMealThumb } = item;
+        const { idMeal, strMeal, strCategory, strMealThumb, isBookmarked } =
+          item;
         const bookmark = {
           idMeal,
           strMeal,
           strCategory,
           strMealThumb,
-          isBookmark: false,
+          isBookmarked: isBookmarked || false,
         };
         return (
           <div key={idMeal} className="py-4">

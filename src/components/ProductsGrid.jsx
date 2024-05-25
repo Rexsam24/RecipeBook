@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import ProductsCard from "./ProductsCard";
 import RecipeCard from "./RecipeCard";
 import { useDispatch } from "react-redux";
-import { bookmark, setCartItems } from "../features/recipe/recipeSlice";
-import { toast } from "react-toastify";
+import { setCartItems } from "../features/recipe/recipeSlice";
 
 const ProductsGrid = () => {
   const products = useLoaderData();

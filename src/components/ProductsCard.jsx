@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartItems } from "../features/recipe/recipeSlice";
+import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 
 const ProductsCard = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.recipeState.cartItems) || [];
+  const bookMarkedItems = useSelector(
+    (state) => state.recipeState.bookMarkedItems
+  );
   const handleBookmarkToggle = (bookmarkdataArg) => {
     const bookmarkdata = {
       ...bookmarkdataArg,
       isBookmarked: !bookmarkdataArg.isBookmarked,
     };
+    const newBookMarkedItems = [...bookMarkedItems, bookmarkdata];
+    dispatch(bookmark(newBookMarkedItems));
     const newData = products.map((data) => {
       if (data.idMeal === bookmarkdataArg.idMeal) {
         return (data = bookmarkdata);
