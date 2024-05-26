@@ -80,6 +80,7 @@ const Create = () => {
           </li>
         </ul>
       </div>
+
       <section className="px-8 mt-4 flex justify-center ">
         <form
           onSubmit={handleSubmit}
@@ -171,6 +172,11 @@ const Create = () => {
           </div>
         </form>
       </section>
+      <div className="flex justify-between ml-32 items-center border-b-2 mb-8 mt-12  pb-5">
+        <h4 className="font-medium text-md">
+          {products.length} product{products.length > 1 && "s"}
+        </h4>
+      </div>
       <section className="px-24  gap-4  grid gap-y-8">
         {products.length > 0 && <CreatedCards products={products} />}
       </section>
