@@ -43,7 +43,7 @@ const Products = () => {
               {products.length} product{products.length > 1 && "s"}
             </h4>
           </div>
-          <div className="py-12 px-4 justify-center  place-items-center shadow-lg grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="py-12 px-4 justify-center  place-items-center shadow-none sm:shadow-lg grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {products !== null ? (
               <ProductsCard />
             ) : (

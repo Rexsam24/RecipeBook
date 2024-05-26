@@ -43,7 +43,7 @@ const Bookmark = () => {
               {products.length} product{products.length > 1 && "s"}
             </h4>
           </div>
-          <div className="p-12 place-items-center shadow-lg grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="p-12 place-items-center sm:shadow-lg shadow-none grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {products.length > 0 ? (
               <BookmarkCard
                 products={products}

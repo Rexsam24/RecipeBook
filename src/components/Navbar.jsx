@@ -19,7 +19,7 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end mr-4">
+        <div className="navbar-end ">
           <div className="dropdown lg:hidden  dropdown-end">
             <div
               tabIndex={0}
