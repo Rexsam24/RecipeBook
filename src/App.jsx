@@ -8,10 +8,10 @@ import Error from "./pages/Error";
 //loaders
 import { loader as recipeLoader } from "../src/utils/loaders/recipeLoader";
 import { loader as singleLoader } from "../src/utils/loaders/singleLoader";
-import { loader as productsLoader } from "../src/utils/loaders/productsLoader";
 import SingleProductPage from "./pages/SingleProductPage";
 import Products from "./pages/Products";
 
+//Routers
 const router = createBrowserRouter([
   {
     path: "/",

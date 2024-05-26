@@ -41,21 +41,18 @@ const SingleProductPage = () => {
   const handleAmount = (e) => {
     setAmount(parseInt(e.target.value));
   };
-
-  // Function to extract the numerical part before 'g'
-
-  // Extract numbers, multiply by 2, and then format back to the original string
-
   const handleServing = () => {
-    setServing((prevServing) =>
-      prevServing.map((str) => {
-        const match = str.match(/^(\d+)g/);
-        if (!match) return str; // Ensure we handle strings without the expected format gracefully
-        const num = Number(match[1]);
-        const multipliedNum = num * amount;
-        return str.replace(/^(\d+)g/, `${multipliedNum}g`);
-      })
-    );
+    const newServings = measurements.map((measure) => {
+      const match = measure.match(/(\d*\.?\d+)(.*)/);
+      if (!match) return measure;
+
+      // eslint-disable-next-line no-unused-vars
+      const [_, num, unit] = match;
+      const newNum = (parseFloat(num) * amount).toFixed(2);
+      return `${newNum}${unit}`;
+    });
+
+    setServing(newServings);
   };
   return (
     <>
@@ -89,24 +86,26 @@ const SingleProductPage = () => {
             {/* ingredients & measurements */}
             <div className="flex flex-row my-4 justify-center gap-16">
               <div className="flex items-center flex-col">
-                <span className="  text-xl font-bold text-primary">
+                <span className="  text-xl  mb-4  font-bold text-primary">
                   Ingredients
                 </span>
-
-                {ingredients.map((i, index) => (
-                  <span key={index}>
-                    {index + 1}.{i}
-                  </span>
-                ))}
+                <ul>
+                  {ingredients.map((i, index) => (
+                    <li key={index}>
+                      {index + 1}.{i}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div className="flex items-center flex-col">
-                <span className="  text-xl font-bold text-primary">
+                <span className="  text-xl mb-4 font-bold text-primary">
                   Quantity
                 </span>
-
-                {serving.map((i, index) => (
-                  <p key={index}>{i}</p>
-                ))}
+                <ul>
+                  {serving.map((i, index) => (
+                    <li key={index}>{i}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -126,16 +125,16 @@ const SingleProductPage = () => {
               >
                 {generateAmountOptions(10)}
               </select>
+              <div className="mt-2 flex justify-center">
+                <button
+                  className="btn w-52 btn-secondary btn-md"
+                  onClick={handleServing}
+                >
+                  Add
+                </button>
+              </div>
             </div>
             {/* CART BTN */}
-            <div className="mt-2">
-              <button
-                className="btn btn-secondary btn-md"
-                onClick={handleServing}
-              >
-                Add
-              </button>
-            </div>
           </div>
         </div>
       </section>

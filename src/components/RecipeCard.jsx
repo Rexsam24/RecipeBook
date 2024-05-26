@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 // {
 //   products, handleBookmarkToggle;
 // }
@@ -12,22 +13,75 @@ const RecipeCard = () => {
   const bookMarkedItems = useSelector(
     (state) => state.recipeState.bookMarkedItems
   );
-  const handleBookmarkToggle = (bookmarkdataArg) => {
-    const bookmarkdata = {
-      ...bookmarkdataArg,
-      isBookmarked: !bookmarkdataArg.isBookmarked,
-    };
-    const newBookMarkedItems = [...bookMarkedItems, bookmarkdata];
-    dispatch(bookmark(newBookMarkedItems));
-    const newData = products.map((data) => {
-      if (data.idMeal === bookmarkdataArg.idMeal) {
-        return (data = bookmarkdata);
-      } else {
-        return data;
-      }
+  useEffect(() => {
+    const updatedProducts = products.map((product) => {
+      const isBookmarked = bookMarkedItems.some(
+        (item) => item.idMeal === product.idMeal
+      );
+      return { ...product, isBookmarked };
     });
-    dispatch(setCartItems(newData));
-    toast.success("Book marked Successfully");
+    dispatch(setCartItems(updatedProducts));
+  }, [bookMarkedItems, dispatch]);
+
+  const handleBookmarkToggle = (bookmarkdataArg) => {
+    const isCurrentlyBookmarked = bookMarkedItems.some(
+      (obj) => obj.idMeal === bookmarkdataArg.idMeal
+    );
+
+    if (isCurrentlyBookmarked) {
+      const updatedBookmarks = bookMarkedItems.filter(
+        (item) => item.idMeal !== bookmarkdataArg.idMeal
+      );
+      dispatch(bookmark(updatedBookmarks));
+      toast.success("Bookmark removed");
+    } else {
+      const bookmarkdata = {
+        ...bookmarkdataArg,
+        isBookmarked: true,
+      };
+      dispatch(bookmark([...bookMarkedItems, bookmarkdata]));
+      toast.success("Bookmarked successfully");
+    }
+
+    const updatedProducts = products.map((item) =>
+      item.idMeal === bookmarkdataArg.idMeal
+        ? { ...item, isBookmarked: !isCurrentlyBookmarked }
+        : item
+    );
+    dispatch(setCartItems(updatedProducts));
+    // const bookmarkdata = {
+    //   ...bookmarkdataArg,
+    //   isBookmarked: !bookmarkdataArg.isBookmarked,
+    // };
+    // console.log(bookmarkdata);
+    // console.log(products);
+    // let exists = bookMarkedItems.some(
+    //   (obj) => obj.idMeal === bookmarkdata.idMeal
+    // );
+
+    // // If object does not exist, add it to the array
+    // if (!exists) {
+    //   toast.success("Book marked Successfully");
+    //   dispatch(bookmark([...bookMarkedItems, bookmarkdata]));
+    // } else {
+    //   // const newBookMarkedItems = [...bookMarkedItems, bookmarkdata];
+    //   // dispatch(bookmark(newBookMarkedItems));
+
+    //   const newData = products.map((data) => {
+    //     if (data.idMeal === bookmarkdataArg.idMeal) {
+    //       // Replace the object and add isBookmarked: false
+    //       return {
+    //         ...bookmarkdataArg,
+    //         isBookmarked: !bookmarkdataArg.isBookmarked,
+    //       };
+    //     } else {
+    //       // Add isBookmarked: false to the existing object
+    //       return { ...data, isBookmarked: false };
+    //     }
+    //   });
+    //   dispatch(setCartItems(newData));
+    //   toast.success("Book marked removed");
+    // }
   };
   return (
     <>

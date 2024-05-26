@@ -1,4 +1,3 @@
-// src/hooks/useSearchLocation.js
 import { useLocation } from "react-router-dom";
 
 const useSearch = () => {

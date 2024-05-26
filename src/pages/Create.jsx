@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,7 @@ const Create = () => {
     image: null,
   });
   const [errors, setErrors] = useState({});
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,16 +60,11 @@ const Create = () => {
       setErrors({});
       toast.success("Recipe added successfully!");
       setRecipe({ name: "", ingredients: "", instructions: "", image: null });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
-
-  // useEffect(()=>{
-  //  const data = JSON.parse(localStorage.getItem("recipes"))
-  //  setProducts(data)
-  // },[])
-
-  // const data = JSON.parse(localStorage.getItem("recipes"));
-  // console.log(data);
 
   return (
     <div className=" flex flex-col">
@@ -88,13 +84,13 @@ const Create = () => {
       <section className="px-8 mt-4 flex justify-center ">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col p-6 shadow-none sm:shadow-lg  gap-6"
+          className="flex flex-col p-6 shadow-none sm:shadow-lg gap-6"
         >
-          <div className="flex flex-col md:flex-row md:gap-12 ">
+          <div className="flex flex-col md:flex-row md:gap-12">
             {/* input-box */}
-            <div className="p-2">
-              <div>
-                <label className="form-control w-full max-w-xs">
+            <div className="p-2 w-full">
+              <div className="w-full">
+                <label className="form-control w-full">
                   <div className="label">
                     <span className="label-text font-semibold">
                       Name of the recipe
@@ -106,7 +102,7 @@ const Create = () => {
                     value={recipe.name}
                     onChange={handleChange}
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full"
                   />
                 </label>
                 {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
@@ -116,7 +112,6 @@ const Create = () => {
                 <label className="form-control">
                   <div className="label">
                     <span className="label-text font-semibold">
-                      {" "}
                       Ingredients:
                     </span>
                   </div>
@@ -124,7 +119,7 @@ const Create = () => {
                     name="ingredients"
                     value={recipe.ingredients}
                     onChange={handleChange}
-                    className="textarea textarea-bordered w-96 h-24"
+                    className="textarea textarea-bordered w-full h-24"
                     placeholder="Type here"
                   ></textarea>
                 </label>
@@ -135,7 +130,7 @@ const Create = () => {
             </div>
 
             {/* instructions */}
-            <div className="p-2">
+            <div className="p-2 w-full">
               <div>
                 <label className="form-control">
                   <div className="label">
@@ -145,7 +140,7 @@ const Create = () => {
                     name="instructions"
                     value={recipe.instructions}
                     onChange={handleChange}
-                    className="textarea textarea-bordered w-96 h-24"
+                    className="textarea textarea-bordered w-full h-24"
                     placeholder="Type here"
                   ></textarea>
                 </label>
@@ -156,20 +151,21 @@ const Create = () => {
               </div>
               {/* upload Image */}
               <div>
-                <label className="form-control w-full max-w-xs">
+                <label className="form-control w-full">
                   <div className="label">
                     <span className="label-text">Upload Image (optional):</span>
                   </div>
                   <input
                     type="file"
+                    ref={fileInputRef}
                     onChange={handleImageChange}
-                    className="file-input file-input-bordered w-full max-w-xs"
+                    className="file-input file-input-bordered w-full"
                   />
                 </label>
               </div>
             </div>
           </div>
-          <div className=" flex justify-center mt-4">
+          <div className="flex justify-center mt-4">
             <button type="submit" className="btn btn-primary w-56">
               Create Recipe
             </button>
