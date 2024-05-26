@@ -45,7 +45,6 @@ const SingleProductPage = () => {
     const newServings = measurements.map((measure) => {
       const match = measure.match(/(\d*\.?\d+)(.*)/);
       if (!match) return measure;
-
       // eslint-disable-next-line no-unused-vars
       const [_, num, unit] = match;
       const newNum = (parseFloat(num) * amount).toFixed(2);

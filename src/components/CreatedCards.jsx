@@ -10,7 +10,7 @@ const CreatedCards = ({ products }) => {
                 <img
                   src={image}
                   alt="Shoes"
-                  className="rounded-xl h-24 w-24 rounded-lg sm:h-40 sm:w-40 object-cover group-hover:scale-105 transition duration-300"
+                  className=" h-24 w-24 rounded-lg sm:h-40 sm:w-40 object-cover group-hover:scale-105 transition duration-300"
                 />
               </figure>
               <div className="">

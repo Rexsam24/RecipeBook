@@ -2,21 +2,16 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 const ProductsCard = () => {
   const dispatch = useDispatch();
 
-  // Get the state from the store
   const products = useSelector((state) => state.recipeState.cartItems) || [];
   const bookMarkedItems = useSelector(
     (state) => state.recipeState.bookMarkedItems
   );
 
-  // Memoize the products array to avoid unnecessary effect calls
-  // const products = useMemo(() => productsFromStore, [productsFromStore]);
-
-  // Sync products with bookmarks on mount
   useEffect(() => {
     const updatedProducts = products.map((product) => {
       const isBookmarked = bookMarkedItems.some(

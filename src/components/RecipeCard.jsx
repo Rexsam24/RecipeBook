@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-// {
-//   products, handleBookmarkToggle;
-// }
 
 const RecipeCard = () => {
   const dispatch = useDispatch();
@@ -21,6 +18,7 @@ const RecipeCard = () => {
       return { ...product, isBookmarked };
     });
     dispatch(setCartItems(updatedProducts));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookMarkedItems, dispatch]);
 
   const handleBookmarkToggle = (bookmarkdataArg) => {
@@ -49,39 +47,6 @@ const RecipeCard = () => {
         : item
     );
     dispatch(setCartItems(updatedProducts));
-    // const bookmarkdata = {
-    //   ...bookmarkdataArg,
-    //   isBookmarked: !bookmarkdataArg.isBookmarked,
-    // };
-    // console.log(bookmarkdata);
-    // console.log(products);
-    // let exists = bookMarkedItems.some(
-    //   (obj) => obj.idMeal === bookmarkdata.idMeal
-    // );
-
-    // // If object does not exist, add it to the array
-    // if (!exists) {
-    //   toast.success("Book marked Successfully");
-    //   dispatch(bookmark([...bookMarkedItems, bookmarkdata]));
-    // } else {
-    //   // const newBookMarkedItems = [...bookMarkedItems, bookmarkdata];
-    //   // dispatch(bookmark(newBookMarkedItems));
-
-    //   const newData = products.map((data) => {
-    //     if (data.idMeal === bookmarkdataArg.idMeal) {
-    //       // Replace the object and add isBookmarked: false
-    //       return {
-    //         ...bookmarkdataArg,
-    //         isBookmarked: !bookmarkdataArg.isBookmarked,
-    //       };
-    //     } else {
-    //       // Add isBookmarked: false to the existing object
-    //       return { ...data, isBookmarked: false };
-    //     }
-    //   });
-    //   dispatch(setCartItems(newData));
-    //   toast.success("Book marked removed");
-    // }
   };
   return (
     <>

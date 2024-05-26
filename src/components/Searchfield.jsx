@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Searchfield = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  // navigate(`/search?query=${encodeURIComponent(query)}`);
+
   const handleSearch = () => {
     if (query.trim()) {
       navigate(`/products?query=${query}`);
@@ -13,6 +13,11 @@ const Searchfield = () => {
   const handlechange = (e) => {
     e.preventDefault();
     setQuery(e.target.value);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
   return (
     <div className="flex mb-6 justify-center p-4">
@@ -25,6 +30,7 @@ const Searchfield = () => {
               name="search"
               value={query}
               onChange={handlechange}
+              onKeyPress={handleKeyPress}
             />
           </div>
         </div>

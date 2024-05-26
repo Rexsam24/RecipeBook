@@ -10,12 +10,6 @@ const Bookmark = () => {
 
   const isPageLoading = navigation.state === "loading";
   const products = useSelector((state) => state.recipeState.bookMarkedItems);
-  console.log(products);
-  // const finalproduct = products.filter((item) => {
-  //   console.log(item.isBookmarked); // This will log true, false, true, false
-  //   return item.isBookmarked === true;
-  // });
-  // console.log(finalproduct);
   const dispatch = useDispatch();
   const handleBookmarkToggle = (bookmarkarg) => {
     const bookmarkdata = {
@@ -27,7 +21,6 @@ const Bookmark = () => {
     });
     dispatch(bookmark(newData));
     toast.success("Bookmark removed successfully");
-    // setIsBookmark(!isBookmark);
   };
   return (
     <>
@@ -44,6 +37,11 @@ const Bookmark = () => {
                 <Link to="/products">BookMarks</Link>
               </li>
             </ul>
+          </div>
+          <div className="flex justify-between items-center mt-8  pb-5">
+            <h4 className="font-medium text-md">
+              {products.length} product{products.length > 1 && "s"}
+            </h4>
           </div>
           <div className="p-12 place-items-center shadow-lg grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {products.length > 0 ? (

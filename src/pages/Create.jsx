@@ -53,7 +53,6 @@ const Create = () => {
           : "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       };
       existingRecipes.push(newRecipe);
-      // Save updated recipes to localStorage
       localStorage.setItem("recipes", JSON.stringify(existingRecipes));
 
       setProducts(existingRecipes);
@@ -84,7 +83,7 @@ const Create = () => {
       <section className="px-8 mt-4 flex justify-center ">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col p-6 shadow-none sm:shadow-lg gap-6"
+          className="flex flex-col rounded-lg p-6 shadow-none sm:shadow-lg gap-6"
         >
           <div className="flex flex-col md:flex-row md:gap-12">
             {/* input-box */}
