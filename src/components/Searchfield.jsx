@@ -14,7 +14,7 @@ const Searchfield = () => {
     e.preventDefault();
     setQuery(e.target.value);
   };
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -30,7 +30,7 @@ const Searchfield = () => {
               name="search"
               value={query}
               onChange={handlechange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

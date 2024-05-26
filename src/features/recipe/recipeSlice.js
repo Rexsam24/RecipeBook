@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const getUserFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("createRecipe")) || [];
-};
-
 const initialState = {
-  cartItems: getUserFromLocalStorage(),
+  cartItems: [],
   bookMarkedItems: [],
 };
 
