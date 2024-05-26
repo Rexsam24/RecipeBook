@@ -65,8 +65,15 @@ const Create = () => {
     }
   };
 
+  const handleDelete = (index) => {
+    const updatedProducts = products.filter((_, i) => i !== index);
+    setProducts(updatedProducts);
+    localStorage.setItem("recipes", JSON.stringify(updatedProducts));
+    toast.success("Recipe removed successfully!");
+  };
+
   return (
-    <div className=" flex flex-col">
+    <div className="flex flex-col">
       <div className="flex justify-center">
         <h1 className="font-bold text-3xl">Create Your Own Recipe</h1>
       </div>
@@ -81,13 +88,12 @@ const Create = () => {
         </ul>
       </div>
 
-      <section className="px-8 mt-4 flex justify-center ">
+      <section className="px-8 mt-4 flex justify-center">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col rounded-lg p-6 shadow-none sm:shadow-lg gap-6"
         >
           <div className="flex flex-col md:flex-row md:gap-12">
-            {/* input-box */}
             <div className="p-2 w-full">
               <div className="w-full">
                 <label className="form-control w-full">
@@ -107,7 +113,6 @@ const Create = () => {
                 </label>
                 {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
               </div>
-              {/* ingredients box */}
               <div>
                 <label className="form-control">
                   <div className="label">
@@ -128,8 +133,6 @@ const Create = () => {
                 )}
               </div>
             </div>
-
-            {/* instructions */}
             <div className="p-2 w-full">
               <div>
                 <label className="form-control">
@@ -144,12 +147,10 @@ const Create = () => {
                     placeholder="Type here"
                   ></textarea>
                 </label>
-
                 {errors.instructions && (
                   <p style={{ color: "red" }}>{errors.instructions}</p>
                 )}
               </div>
-              {/* upload Image */}
               <div>
                 <label className="form-control w-full">
                   <div className="label">
@@ -172,15 +173,18 @@ const Create = () => {
           </div>
         </form>
       </section>
-      <div className="flex justify-between ml-32 items-center border-b-2 mb-8 mt-12  pb-5">
+      <div className="flex justify-between ml-32 items-center border-b-2 mb-8 mt-12 pb-5">
         <h4 className="font-medium text-md">
           {products.length} product{products.length > 1 && "s"}
         </h4>
       </div>
-      <section className="px-24  gap-4  grid gap-y-8">
-        {products.length > 0 && <CreatedCards products={products} />}
+      <section className="px-24 gap-4 grid gap-y-8">
+        {products.length > 0 && (
+          <CreatedCards products={products} onDelete={handleDelete} />
+        )}
       </section>
     </div>
   );
 };
+
 export default Create;

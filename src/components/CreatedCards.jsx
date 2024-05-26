@@ -1,36 +1,46 @@
-const CreatedCards = ({ products }) => {
+const CreatedCards = ({ products, onDelete }) => {
   return (
     <>
       {products.map((item, index) => {
         const { name, ingredients, instructions, image } = item;
         return (
           <div key={index} className="py-4">
-            <div className="card  flex flex-row hover:drop-shadow-xl bg-base-100 shadow-xl">
+            <div className="card flex flex-row hover:drop-shadow-xl bg-base-100 shadow-xl">
               <figure className="p-10">
                 <img
                   src={image}
-                  alt="Shoes"
-                  className=" h-24 w-24 rounded-lg sm:h-40 sm:w-40 object-cover group-hover:scale-105 transition duration-300"
+                  alt="Recipe"
+                  className="h-24 w-24 rounded-lg sm:h-40 sm:w-40 object-cover group-hover:scale-105 transition duration-300"
                 />
               </figure>
-              <div className="">
-                <div className="card-body  text-left">
+              <div>
+                <div className="card-body text-left">
                   <div>
                     <h2 className="card-title font-bold text-lg">
-                      Name:<span className="font-normal">{name}</span>{" "}
+                      Name: <span className="font-normal">{name}</span>
                     </h2>
                   </div>
                   <div>
                     <h2 className="card-title font-bold text-lg">
-                      Ingredients:
-                      <span className="font-normal">{ingredients}</span>{" "}
+                      Ingredients:{" "}
+                      <span className="font-normal">{ingredients}</span>
                     </h2>
                   </div>
-                  <div>
-                    <h2 className="card-title  font-bold text-lg">
-                      Instructions:
-                      <span className="font-normal">{instructions}</span>{" "}
+                  <div className="mb-2">
+                    <h2 className="card-title font-bold text-lg">
+                      Instructions:{" "}
+                      <span className="font-normal whitespace-pre-line">
+                        {instructions}
+                      </span>
                     </h2>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => onDelete(index)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -41,4 +51,5 @@ const CreatedCards = ({ products }) => {
     </>
   );
 };
+
 export default CreatedCards;
