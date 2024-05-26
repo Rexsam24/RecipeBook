@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigation } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
 import useSearch from "../utils/loaders/useSearch";
 import { loader } from "../utils/loaders/productsLoader";
 import { useEffect } from "react";
@@ -12,15 +12,13 @@ const Products = () => {
   const isPageLoading = navigation.state === "loading";
   const products = useSelector((state) => state.recipeState.cartItems);
   const searchQuery = useSearch();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     loader({ searchQuery }).then((data) => {
       dispatch(setCartItems(data));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+  }, [searchQuery, dispatch]);
 
   return (
     <>

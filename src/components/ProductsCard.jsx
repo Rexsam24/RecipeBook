@@ -2,26 +2,34 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const ProductsCard = () => {
   const dispatch = useDispatch();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const products = useSelector((state) => state.recipeState.cartItems) || [];
+  const memoizedProducts = useMemo(() => products, [products]);
+
   const bookMarkedItems = useSelector(
     (state) => state.recipeState.bookMarkedItems
   );
 
+  const [updatedProducts, setUpdatedProducts] = useState(memoizedProducts);
+
   useEffect(() => {
-    const updatedProducts = products.map((product) => {
+    setUpdatedProducts(memoizedProducts);
+  }, [memoizedProducts]);
+
+  useEffect(() => {
+    const updatedProducts = memoizedProducts.map((product) => {
       const isBookmarked = bookMarkedItems.some(
         (item) => item.idMeal === product.idMeal
       );
       return { ...product, isBookmarked };
     });
-    dispatch(setCartItems(updatedProducts));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookMarkedItems, dispatch]);
+    setUpdatedProducts(updatedProducts);
+  }, [memoizedProducts, bookMarkedItems]);
 
   const handleBookmarkToggle = (bookmarkdataArg) => {
     const isCurrentlyBookmarked = bookMarkedItems.some(
@@ -43,17 +51,19 @@ const ProductsCard = () => {
       toast.success("Bookmarked successfully");
     }
 
-    const updatedProducts = products.map((item) =>
+    const updatedProducts = memoizedProducts.map((item) =>
       item.idMeal === bookmarkdataArg.idMeal
         ? { ...item, isBookmarked: !isCurrentlyBookmarked }
         : item
     );
+    setUpdatedProducts(updatedProducts);
+
     dispatch(setCartItems(updatedProducts));
   };
 
   return (
     <>
-      {products.map((item) => {
+      {updatedProducts.map((item) => {
         const { idMeal, strMeal, strCategory, strMealThumb, isBookmarked } =
           item;
         const bookmark = {
