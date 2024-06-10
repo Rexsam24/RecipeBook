@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,19 @@ const Create = () => {
   });
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
+  const bc = new BroadcastChannel('recipesChannel');
+
+  useEffect(() => {
+    bc.onmessage = (event) => {
+      if (event.data.type === 'UPDATE_RECIPES') {
+        setProducts(event.data.recipes);
+      }
+    };
+
+    return () => {
+      bc.close();
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +75,10 @@ const Create = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      bc.postMessage({
+        type: 'UPDATE_RECIPES',
+        recipes: existingRecipes,
+      })
     }
   };
 
@@ -70,6 +87,10 @@ const Create = () => {
     setProducts(updatedProducts);
     localStorage.setItem("recipes", JSON.stringify(updatedProducts));
     toast.success("Recipe removed successfully!");
+    bc.postMessage({
+      type: 'UPDATE_RECIPES',
+      recipes: updatedProducts,
+    });
   };
 
   return (
