@@ -21,10 +21,8 @@ const Create = () => {
 
   useEffect(() => {
     bc.onmessage = (event) => {
-      if (event.data.type === 'UPDATE_RECIPES') {
-        setProducts(event.data.recipes);
-      }
-    };
+      setProducts(event.data.recipes);
+        }
 
     return () => {
       bc.close();
@@ -76,7 +74,6 @@ const Create = () => {
         fileInputRef.current.value = "";
       }
       bc.postMessage({
-        type: 'UPDATE_RECIPES',
         recipes: existingRecipes,
       })
     }
@@ -88,7 +85,6 @@ const Create = () => {
     localStorage.setItem("recipes", JSON.stringify(updatedProducts));
     toast.success("Recipe removed successfully!");
     bc.postMessage({
-      type: 'UPDATE_RECIPES',
       recipes: updatedProducts,
     });
   };
