@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 import { useEffect, useMemo, useState } from "react";
+import { RootState} from '../store'; 
+import { Recipe } from "../utils/lib/types";
 
 const ProductsCard = () => {
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const products = useSelector((state) => state.recipeState.cartItems) || [];
+  const products = useSelector((state: RootState) => state.recipeState.cartItems) || [];
   const memoizedProducts = useMemo(() => products, [products]);
 
   const bookMarkedItems = useSelector(
-    (state) => state.recipeState.bookMarkedItems
-  );
+    (state: RootState) => state.recipeState.bookMarkedItems
+  ); 
 
   const [updatedProducts, setUpdatedProducts] = useState(memoizedProducts);
 
@@ -31,12 +33,13 @@ const ProductsCard = () => {
     setUpdatedProducts(updatedProducts);
   }, [memoizedProducts, bookMarkedItems]);
 
-  const handleBookmarkToggle = (bookmarkdataArg) => {
+  const handleBookmarkToggle = (bookmarkdataArg:Recipe) => {
+    console.log(bookmarkdataArg)
     const isCurrentlyBookmarked = bookMarkedItems.some(
       (obj) => obj.idMeal === bookmarkdataArg.idMeal
     );
 
-    if (isCurrentlyBookmarked) {
+    if (isCurrentlyBookmarked) { 
       const updatedBookmarks = bookMarkedItems.filter(
         (item) => item.idMeal !== bookmarkdataArg.idMeal
       );
@@ -72,7 +75,7 @@ const ProductsCard = () => {
           strCategory,
           strMealThumb,
           isBookmarked: isBookmarked || false,
-        };
+        } as Recipe;
         return (
           <div key={idMeal} className="py-4">
             <div className="card w-72 hover:drop-shadow-xl bg-base-100 shadow-xl">

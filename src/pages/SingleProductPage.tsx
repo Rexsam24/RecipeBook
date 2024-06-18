@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { generateAmountOptions } from "../utils/generateAmountOptions";
+import React from 'react';
+import { Recipe } from "../utils/lib/types";
+
 const SingleProductPage = () => {
-  const data = useLoaderData();
+  const data = useLoaderData() as Recipe[];
   const {
     idMeal,
     strCategory,
     strMeal,
-
-    strIngredient1,
+    strIngredient1, 
     strIngredient2,
     strIngredient3,
     strIngredient4,
@@ -16,7 +18,7 @@ const SingleProductPage = () => {
     strMeasure1,
     strMeasure2,
     strMeasure3,
-    strMeasure4,
+    strMeasure4, 
     strMeasure5,
     strInstructions,
     strMealThumb,
@@ -38,8 +40,8 @@ const SingleProductPage = () => {
   const [serving, setServing] = useState(measurements);
   const [amount, setAmount] = useState(1);
 
-  const handleAmount = (e) => {
-    setAmount(parseInt(e.target.value));
+  const handleAmount = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAmount(parseInt(e.target.value)); 
   };
   const handleServing = () => {
     const newServings = measurements.map((measure) => {

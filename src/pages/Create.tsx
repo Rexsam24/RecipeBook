@@ -4,19 +4,21 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreatedCards from "../components/CreatedCards";
 import defaultdata from "../utils/defaultdata";
+import React from 'react';
+import { CreateRecipe, Errors } from "../utils/lib/types";
 
 const Create = () => {
-  const [products, setProducts] = useState(
-    JSON.parse(localStorage.getItem("recipes")) || defaultdata
+  const [products, setProducts] = useState<CreateRecipe[]>(
+    JSON.parse(localStorage.getItem('recipes') || 'null') || defaultdata
   );
-  const [recipe, setRecipe] = useState({
+  const [recipe, setRecipe] = useState<CreateRecipe>({
     name: "",
     ingredients: "",
     instructions: "",
     image: null,
   });
-  const [errors, setErrors] = useState({});
-  const fileInputRef = useRef(null);
+  const [errors, setErrors] = useState<Errors>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const bc = new BroadcastChannel('recipesChannel');
 
   useEffect(() => {
@@ -25,21 +27,24 @@ const Create = () => {
         }
 
     return () => {
+    
       bc.close();
     };
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setRecipe({ ...recipe, [name]: value });
   };
 
-  const handleImageChange = (e) => {
-    setRecipe({ ...recipe, image: e.target.files[0] });
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setRecipe({ ...recipe, image: URL.createObjectURL(e.target.files[0]) });
+    }
   };
 
-  const validate = () => {
-    let errors = {};
+  const validate = (): Errors => {
+    let errors: Errors = {};
 
     if (!recipe.name) errors.name = "Name is required";
     if (!recipe.ingredients) errors.ingredients = "Ingredients are required";
@@ -48,19 +53,19 @@ const Create = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       toast.error("Please fill required fields");
     } else {
-      const existingRecipes =
-        JSON.parse(localStorage.getItem("recipes")) || products;
-      const newRecipe = {
+      const existingRecipes: CreateRecipe[] =
+        JSON.parse(localStorage.getItem("recipes") || '[]') || products;
+      const newRecipe:CreateRecipe = {
         ...recipe,
         image: recipe.image
-          ? URL.createObjectURL(recipe.image)
+          ? recipe.image
           : "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       };
       existingRecipes.push(newRecipe);
@@ -68,7 +73,7 @@ const Create = () => {
 
       setProducts(existingRecipes);
       setErrors({});
-      toast.success("Recipe added successfully!");
+      toast.success("Recipe added successfully!"); 
       setRecipe({ name: "", ingredients: "", instructions: "", image: null });
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -79,7 +84,7 @@ const Create = () => {
     }
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (index: number) => {
     const updatedProducts = products.filter((_, i) => i !== index);
     setProducts(updatedProducts);
     localStorage.setItem("recipes", JSON.stringify(updatedProducts));

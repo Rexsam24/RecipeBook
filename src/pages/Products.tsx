@@ -1,26 +1,34 @@
 import { Link, useNavigation } from "react-router-dom";
 import useSearch from "../utils/loaders/useSearch";
-import { loader } from "../utils/loaders/productsLoader";
+// import { loader } from "../utils/loaders/productsLoader";
 import { useEffect } from "react";
 import ProductsCard from "../components/ProductsCard";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "../features/recipe/recipeSlice";
-import Loading from "../components/Loading";
+import Loading from "../components/Loading"; 
+import actualRecipeService from '../utils/services/actualRecipeService';
+import mockRecipeService from '../utils/services/mockRecipeService';
+import { RootState, AppDispatch } from '../store';
+import React from 'react';
 
 const Products = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation(); 
   const isPageLoading = navigation.state === "loading";
-  const products = useSelector((state) => state.recipeState.cartItems);
-  const searchQuery = useSearch();
+  const products = useSelector((state: RootState) => state.recipeState.cartItems);
+  const searchQuery : string | null = useSearch();
   const dispatch = useDispatch();
+  
+  const isMocked = import.meta.env.VITE_APP_USE_MOCK_SERVICE === "true";
+  const recipeService = isMocked ? mockRecipeService : actualRecipeService 
 
-  useEffect(() => {
-    loader({ searchQuery }).then((data) => {
+  useEffect(() => {  
+    const query = searchQuery || ''; 
+     recipeService.searchRecipes(  query  ).then((data) => {
       dispatch(setCartItems(data));
-    });
+      })
   }, [searchQuery, dispatch]);
 
-  return (
+  return ( 
     <>
       {isPageLoading ? (
         <Loading />

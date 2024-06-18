@@ -4,14 +4,16 @@ import BookmarkCard from "../components/BookmarkCard";
 import { bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import { RootState} from '../store'; 
+import {  Recipe } from "../utils/lib/types";
 
 const Bookmark = () => {
   const navigation = useNavigation();
 
   const isPageLoading = navigation.state === "loading";
-  const products = useSelector((state) => state.recipeState.bookMarkedItems);
+  const products = useSelector((state: RootState) => state.recipeState.bookMarkedItems);
   const dispatch = useDispatch();
-  const handleBookmarkToggle = (bookmarkarg) => {
+  const handleBookmarkToggle  = (bookmarkarg: Recipe) => {
     const bookmarkdata = {
       ...bookmarkarg,
       isBookmarked: !bookmarkarg.isBookmarked,

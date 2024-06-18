@@ -8,7 +8,7 @@ const Footer = () => {
           <img src={logo} alt="yr" />
         </div>
         <p className="">
-          <span className="font-bold">
+          <span className="font-bold"> 
             Recipe-Book Ltd. <br />
           </span>
           Provide a network for all your needs with ease and fun using

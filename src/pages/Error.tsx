@@ -1,7 +1,10 @@
 import { useRouteError, Link } from "react-router-dom";
+import React from 'react';
+import { RouteError } from "../utils/lib/types";
+
 
 const Error = () => {
-  const error = useRouteError();
+  const error = useRouteError() as RouteError;
 
   if (error.status === 404) {
     return (

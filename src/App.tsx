@@ -1,17 +1,29 @@
+import React from 'react';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Recipe from "./pages/Recipe";
 import Create from "./pages/Create";
 import Bookmark from "./pages/Bookmark";
 import HomeLayout from "./pages/HomeLayout";
 import Error from "./pages/Error";
+// import { Recipe, RecipeService } from './utils/lib/types';
 
 //loaders
-import { loader as recipeLoader } from "../src/utils/loaders/recipeLoader";
-import { loader as singleLoader } from "../src/utils/loaders/singleLoader";
+import { loader as recipeLoader } from "./utils/loaders/recipeLoader";
+import { loader as singleLoader } from "./utils/loaders/singleLoader";
 import SingleProductPage from "./pages/SingleProductPage";
 import Products from "./pages/Products";
+import actualRecipeService from './utils/services/actualRecipeService';
+import mockRecipeService from './utils/services/mockRecipeService';
 
-//Routers
+
+//service
+const isMocked = import.meta.env.VITE_APP_USE_MOCK_SERVICE === 'true';
+console.log(isMocked)
+const recipeService = isMocked ? mockRecipeService : actualRecipeService 
+
+
+
+//Routers 
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +33,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Recipe />,
-        loader: recipeLoader,
+        loader:() => recipeService.getDefaultRecipes(),
       },
 
       {
@@ -36,7 +48,12 @@ const router = createBrowserRouter([
       {
         path: "products/:id",
         element: <SingleProductPage />,
-        loader: singleLoader,
+        loader: async ({ params }) => {
+          const { id } = params;
+          if (id) {
+            return await recipeService.getRecipeById(id);
+          }
+        },
       },
       {
         path: "bookmark",
@@ -45,13 +62,18 @@ const router = createBrowserRouter([
       {
         path: "bookmark/products/:id",
         element: <SingleProductPage />,
-        loader: singleLoader,
+        loader: async ({ params }) => {
+          const { id } = params;
+          if (id) {
+            return await recipeService.getRecipeById(id);
+          }
+        },
       },
     ],
   },
 ]);
 
-function App() {
+function App() { 
   return (
     <>
       <RouterProvider router={router} />

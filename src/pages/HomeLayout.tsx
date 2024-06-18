@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet, useNavigation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -12,7 +13,7 @@ const HomeLayout = () => {
       {isPageLoading ? (
         <Loading />
       ) : (
-        <section className="align-element py-10">
+        <section className="align-element py-10"> 
           <Outlet />
         </section>
       )}

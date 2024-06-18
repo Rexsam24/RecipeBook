@@ -1,6 +1,7 @@
 import NavLinks from "./NavLinks";
 import logo from "../assets/recipe.svg";
 import profile from "../assets/profile.jpg";
+
 const Navbar = () => {
   return (
     <>

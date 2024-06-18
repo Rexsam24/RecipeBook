@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { BookmarkCardProps, Recipe } from "../utils/lib/types";
 
-const BookmarkCard = ({ products, handleBookmarkToggle }) => {
+
+const BookmarkCard = ({ products, handleBookmarkToggle }:BookmarkCardProps) => {
   return (
     <>
-      {products.map((item) => {
+      {products.map((item:Recipe) => {
         const { idMeal, strMeal, strCategory, strMealThumb, isBookmarked } =
           item;
         const bookmark = {
@@ -12,7 +14,7 @@ const BookmarkCard = ({ products, handleBookmarkToggle }) => {
           strCategory,
           strMealThumb,
           isBookmarked: isBookmarked || false,
-        };
+        } as Recipe;
         return (
           <div key={idMeal} className="py-4">
             <div className="card w-72  hover:drop-shadow-xl bg-base-100 shadow-xl">

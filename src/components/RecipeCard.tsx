@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { setCartItems, bookmark } from "../features/recipe/recipeSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import React from 'react';
+import { RootState, AppDispatch } from '../store'; 
+import { Recipe } from "../utils/lib/types";
 
-const RecipeCard = () => {
+const RecipeCard = () => { 
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.recipeState.cartItems) || [];
+  const products = useSelector((state: RootState) => state.recipeState.cartItems) || [];
   const bookMarkedItems = useSelector(
-    (state) => state.recipeState.bookMarkedItems
+    (state: RootState) => state.recipeState.bookMarkedItems
   );
   useEffect(() => {
     const updatedProducts = products.map((product) => {
@@ -21,7 +24,7 @@ const RecipeCard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookMarkedItems, dispatch]);
 
-  const handleBookmarkToggle = (bookmarkdataArg) => {
+  const handleBookmarkToggle = (bookmarkdataArg:Recipe) => {
     const isCurrentlyBookmarked = bookMarkedItems.some(
       (obj) => obj.idMeal === bookmarkdataArg.idMeal
     );
@@ -36,7 +39,7 @@ const RecipeCard = () => {
       const bookmarkdata = {
         ...bookmarkdataArg,
         isBookmarked: true,
-      };
+      } as Recipe;
       dispatch(bookmark([...bookMarkedItems, bookmarkdata]));
       toast.success("Bookmarked successfully");
     }
@@ -59,7 +62,7 @@ const RecipeCard = () => {
           strCategory,
           strMealThumb,
           isBookmarked: isBookmarked || false,
-        };
+        } as Recipe;
         return (
           <div key={idMeal} className="py-4 ">
             <div className="card w-72 hover:drop-shadow-xl bg-base-100 shadow-xl">

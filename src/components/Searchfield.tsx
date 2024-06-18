@@ -10,11 +10,11 @@ const Searchfield = () => {
       navigate(`/products?query=${query}`);
     }
   };
-  const handlechange = (e) => {
+  const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setQuery(e.target.value);
   };
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }

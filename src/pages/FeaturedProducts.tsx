@@ -1,4 +1,5 @@
 import ProductsGrid from "../components/ProductsGrid";
+import React from 'react';
 
 const FeaturedProducts = () => {
   return (
@@ -12,7 +13,7 @@ const FeaturedProducts = () => {
           Always take care of your health starting from the food menu that you
           <br />
           consume every day
-        </p>
+        </p> 
       </div>
       <ProductsGrid />
     </section>
