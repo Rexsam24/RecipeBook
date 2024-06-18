@@ -22,13 +22,12 @@ const Create = () => {
   const bc = new BroadcastChannel('recipesChannel');
 
   useEffect(() => {
-    bc.onmessage = (event) => {
+    const handleBroadcast = (event: MessageEvent) => {
       setProducts(event.data.recipes);
         }
-
+      bc.addEventListener('message', handleBroadcast);
     return () => {
-    
-      bc.close();
+      bc.removeEventListener('message', handleBroadcast);
     };
   }, []);
 
@@ -78,6 +77,7 @@ const Create = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      
       bc.postMessage({
         recipes: existingRecipes,
       })
